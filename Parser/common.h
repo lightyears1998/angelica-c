@@ -25,16 +25,12 @@ namespace angelica
 	};
 
 	// µ¥´Ê·ûºÅ
-	class Symbol
+	struct Symbol
 	{
-	public:
-		Symbol(SymbolType type);
-		Symbol(SymbolType type, string value);
+		SymbolType type;
+		string value;
 
-		string ToString();
-
-	private:
-		SymbolType type_;
-		string value_;
+		Symbol(SymbolType type) : type(type) {};
+		Symbol(SymbolType type, string value) : type(type), value(value) {};
 	};
 }
