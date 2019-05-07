@@ -8,53 +8,53 @@ namespace angelica
 	Parser::Parser()
 	{
 		// 添加关键词
-		keyword_to_symbol_type_["main"] = SymbolType::KEYWORD_MAIN;
-		keyword_to_symbol_type_["int"] = SymbolType::KEYWORD_INT;
-		keyword_to_symbol_type_["char"] = SymbolType::KEYWORD_CHAR;
-		keyword_to_symbol_type_["if"] = SymbolType::KEYWORD_IF;
-		keyword_to_symbol_type_["else"] = SymbolType::KEYWORD_ELSE;
-		keyword_to_symbol_type_["for"] = SymbolType::KEYWORD_FOR;
-		keyword_to_symbol_type_["while"] = SymbolType::KEYWORD_WHILE;
-		keyword_to_symbol_type_["return"] = SymbolType::KEYWORD_RETURN;
-		keyword_to_symbol_type_["void"] = SymbolType::KEYWORD_VOID;
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_MAIN, "main");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_INT, "int");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_CHAR, "char");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_IF, "if");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_ELSE, "else");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_FOR, "for");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_WHILE, "while");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_RETURN, "return");
+		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_VOID, "void");
 
 		// 为单词种别添加助记符
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_MAIN] = "main";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_INT] = "int";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_CHAR] = "char";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_IF] = "if";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_ELSE] = "else";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_FOR] = "for";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_WHILE] = "while";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_RETURN] = "return";
-		symbol_type_to_mnemonics_[SymbolType::KEYWORD_VOID] = "void";
-
-		symbol_type_to_mnemonics_[SymbolType::STRING] = "STRING";
-		symbol_type_to_mnemonics_[SymbolType::ID] = "ID";
-		symbol_type_to_mnemonics_[SymbolType::INT] = "INT";
-		symbol_type_to_mnemonics_[SymbolType::EQUALS] = "=";
-		symbol_type_to_mnemonics_[SymbolType::PLUS] = "+";
-		symbol_type_to_mnemonics_[SymbolType::SUBSTRACT] = "-";
-		symbol_type_to_mnemonics_[SymbolType::MULTIPLE] = "*";
-		symbol_type_to_mnemonics_[SymbolType::DIVIDE] = "/";
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_MAIN, "main");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_INT, "int");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_CHAR, "char");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_IF, "if");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_ELSE, "else");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_FOR, "for");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_WHILE, "while");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_RETURN, "return");
+		defineMnemonicsForSymbolType(SymbolType::KEYWORD_VOID, "void");
 		
-		symbol_type_to_mnemonics_[SymbolType::LS_PARENTHESIS] = "(";
-		symbol_type_to_mnemonics_[SymbolType::RS_PARENTHESIS] = ")";
-		symbol_type_to_mnemonics_[SymbolType::LS_PARENTHESIS] = "[";
-		symbol_type_to_mnemonics_[SymbolType::RS_PARENTHESIS] = "]";
-		symbol_type_to_mnemonics_[SymbolType::LS_PARENTHESIS] = "{";
-		symbol_type_to_mnemonics_[SymbolType::RS_PARENTHESIS] = "}";
+		defineMnemonicsForSymbolType(SymbolType::STRING, "STRING");
+		defineMnemonicsForSymbolType(SymbolType::ID, "ID");
+		defineMnemonicsForSymbolType(SymbolType::INT, "INT");
+		defineMnemonicsForSymbolType(SymbolType::EQUALS, "=");
+		defineMnemonicsForSymbolType(SymbolType::PLUS, "+");
+		defineMnemonicsForSymbolType(SymbolType::SUBSTRACT, "-");
+		defineMnemonicsForSymbolType(SymbolType::MULTIPLE, "*");
+		defineMnemonicsForSymbolType(SymbolType::DIVIDE, "/");
 
-		symbol_type_to_mnemonics_[SymbolType::COMMA] = ",";
-		symbol_type_to_mnemonics_[SymbolType::COLON] = ":";
-		symbol_type_to_mnemonics_[SymbolType::SEMICOLON] = ";";
+		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "(");
+		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, ")");
+		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "[");
+		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, "]");
+		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "{");
+		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, "}");
 
-		symbol_type_to_mnemonics_[SymbolType::RELOP_GT] = ">";
-		symbol_type_to_mnemonics_[SymbolType::RELOP_LT] = "<";
-		symbol_type_to_mnemonics_[SymbolType::RELOP_GE] = ">=";
-		symbol_type_to_mnemonics_[SymbolType::RELOP_LE] = "<=";
-		symbol_type_to_mnemonics_[SymbolType::RELOP_EQ] = "==";
-		symbol_type_to_mnemonics_[SymbolType::RELOP_NEQ] = "!=";
+		defineMnemonicsForSymbolType(SymbolType::COMMA, ",");
+		defineMnemonicsForSymbolType(SymbolType::COLON, ":");
+		defineMnemonicsForSymbolType(SymbolType::SEMICOLON, ";");
+
+		defineMnemonicsForSymbolType(SymbolType::RELOP_GT, ">");
+		defineMnemonicsForSymbolType(SymbolType::RELOP_LT, "<");
+		defineMnemonicsForSymbolType(SymbolType::RELOP_GE, ">=");
+		defineMnemonicsForSymbolType(SymbolType::RELOP_LE, "<=");
+		defineMnemonicsForSymbolType(SymbolType::RELOP_EQ, "==");
+		defineMnemonicsForSymbolType(SymbolType::RELOP_NEQ, "!=");
 	}
 
 	void Parser::Parse(string source_code)
@@ -113,14 +113,16 @@ namespace angelica
 		}
 	}
 
-	void Parser::defineMnemonicsForSymbolType(SymbolType type, string mnemonics)
+	void Parser::defineMnemonicsForSymbolType(SymbolType symbol_type, string mnemonics)
 	{
-		symbol_type_to_mnemonics_[type] = mnemonics;
+		symbol_type_to_mnemonics_[symbol_type] = mnemonics;
+		mnemonics_to_symbol_type_[mnemonics] = symbol_type;
 	}
 
-	void Parser::associateSymbolTypeWithKeyword(SymbolType type, string keyword)
+	void Parser::associateSymbolTypeWithKeyword(SymbolType symbol_type, string keyword)
 	{
-		keyword_to_symbol_type_[keyword] = type;
+		symbol_type_to_keyword_[symbol_type] = keyword;
+		keyword_to_symbol_type_[keyword] = symbol_type;
 	}
 
 	bool Parser::isKeyword(string word)
@@ -129,7 +131,7 @@ namespace angelica
 		return keyword_to_symbol_type_.find(word) != keyword_to_symbol_type_.end();
 	}
 
-	SymbolType Parser::getKeywordSymbol(string keyword)
+	SymbolType Parser::getSymbolOfKeyword(string keyword)
 	{
 		return keyword_to_symbol_type_.at(keyword);
 	}
