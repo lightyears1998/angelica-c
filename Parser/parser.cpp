@@ -32,7 +32,7 @@ namespace angelica
 		defineMnemonicsForSymbolType(SymbolType::STRING, "STRING");
 		defineMnemonicsForSymbolType(SymbolType::ID, "ID");
 		defineMnemonicsForSymbolType(SymbolType::INT, "INT");
-		defineMnemonicsForSymbolType(SymbolType::EQUALS, "=");
+		defineMnemonicsForSymbolType(SymbolType::ASSIGNMENT, "=");
 		defineMnemonicsForSymbolType(SymbolType::PLUS, "+");
 		defineMnemonicsForSymbolType(SymbolType::SUBSTRACT, "-");
 		defineMnemonicsForSymbolType(SymbolType::MULTIPLE, "*");
@@ -40,10 +40,10 @@ namespace angelica
 
 		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "(");
 		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, ")");
-		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "[");
-		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, "]");
-		defineMnemonicsForSymbolType(SymbolType::LS_PARENTHESIS, "{");
-		defineMnemonicsForSymbolType(SymbolType::RS_PARENTHESIS, "}");
+		defineMnemonicsForSymbolType(SymbolType::LM_PARENTHESIS, "[");
+		defineMnemonicsForSymbolType(SymbolType::RM_PARENTHESIS, "]");
+		defineMnemonicsForSymbolType(SymbolType::LL_PARENTHESIS, "{");
+		defineMnemonicsForSymbolType(SymbolType::RL_PARENTHESIS, "}");
 
 		defineMnemonicsForSymbolType(SymbolType::COMMA, ",");
 		defineMnemonicsForSymbolType(SymbolType::COLON, ":");

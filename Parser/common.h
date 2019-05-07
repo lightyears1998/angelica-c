@@ -15,7 +15,7 @@ namespace angelica
 		KEYWORD_FOR, KEYWORD_WHILE, KEYWORD_RETURN,
 		KEYWORD_VOID,
 		STRING = 50, ID = 10, INT = 20,
-		EQUALS = 21,  // 等号
+		ASSIGNMENT = 21,  // 赋值符号“=”
 		PLUS, SUBSTRACT, MULTIPLE, DIVIDE,
 		LS_PARENTHESIS, RS_PARENTHESIS, // 左小括号，右小括号
 		LM_PARENTHESIS, RM_PARENTHESIS,
@@ -29,6 +29,7 @@ namespace angelica
 	{
 		SymbolType type;
 		string value;
+		unsigned line_number, column_number;  // 所在的行号和列号
 
 		Symbol(SymbolType type) : type(type) {};
 		Symbol(SymbolType type, string value) : type(type), value(value) {};
