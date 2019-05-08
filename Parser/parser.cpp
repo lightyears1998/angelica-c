@@ -70,13 +70,13 @@ namespace angelica
 			token = source_text_[current_index_];  // 将token初始化为待分析的第一个字符
 
 			if (isspace(token[0])) {  // 滤除空白字符
-				if (token[0] != '\n') {
+				if (token[0] == '\n') {
 					++current_index_;
-					++column_number_;
+					++line_number_, column_number_ = 1;
 				}
 				else {
 					++current_index_;
-					++line_number_, column_number_ = 1;
+					++column_number_;
 				}
 				continue;
 			}
@@ -234,6 +234,7 @@ namespace angelica
 					token += source_text_[end_of_number_index];
 					++end_of_number_index;
 				}
+				--end_of_number_index;  // 回退一个字符
 				collectSymbol(SymbolType::INT, token);
 				column_number_ += end_of_number_index - current_index_ + 1;
 				current_index_ = end_of_number_index + 1;

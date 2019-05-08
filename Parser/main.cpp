@@ -31,6 +31,6 @@ int main()
 	cout << parser.GetSymbolString(vec[0]);
 	for (size_t i = 1; i < vec.size(); ++i) {
 		cout << (vec[i].line_number != vec[i-1].line_number ? "\n" : " ");
-		cout << parser.GetSymbolString(vec[i]);
+		cout << parser.GetSymbolString(vec[i]) << vec[i].line_number << ':' << vec[i].column_number;
 	}
 }
