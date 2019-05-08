@@ -22,10 +22,15 @@ int main()
 			input += '\n';
 		}
 	}
-	parser.Parse(input);
 
-	vector<Symbol> vec(parser.GetSymbols());
-	for (size_t i = 0; i < vec.size(); ++i) {
+	// 进行词法分析
+	parser.Parse(input);
+	vector<Symbol>vec(parser.GetSymbols());
+
+	// 在标准输出中打印单词符号
+	cout << parser.GetSymbolString(vec[0]);
+	for (size_t i = 1; i < vec.size(); ++i) {
+		cout << (vec[i].line_number != vec[i-1].line_number ? "\n" : " ");
 		cout << parser.GetSymbolString(vec[i]);
 	}
 }

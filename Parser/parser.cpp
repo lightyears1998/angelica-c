@@ -57,208 +57,252 @@ namespace angelica
 		defineMnemonicsForSymbolType(SymbolType::RELOP_NEQ, "!=");
 	}
 
-	void Parser::Parse(string source_code)
+	void Parser::Parse(string source_text)
 	{
+		source_text_ = source_text;
+		current_index_ = 0;
+		line_number_ = 1, column_number_ = 1;
 		symbols_.clear();  // 在词法分析开始前，清空保存单词符号的容器
 
-		for (size_t idx = 0; idx < source_code.length(); ++idx)
+		while (current_index_ < source_text_.length())
 		{
 			string token;  // 用于保存单词符号的字符串
-			token = source_code[idx];  // 将token初始化为input[idx]
+			token = source_text_[current_index_];  // 将token初始化为待分析的第一个字符
 
 			if (isspace(token[0])) {  // 滤除空白字符
+				if (token[0] != '\n') {
+					++current_index_;
+					++column_number_;
+				}
+				else {
+					++current_index_;
+					++line_number_, column_number_ = 1;
+				}
 				continue;
 			}
 
 			if (token[0] == '=') { // 识别为“=”或“==”
-				if (idx + 1 < source_code.length() && source_code.substr(idx, 2) == "==")
+				if (current_index_ + 1 < source_text_.length() && source_text_.substr(current_index_, 2) == "==")
 				{  // “==”
-					symbols_.push_back(Symbol(SymbolType::RELOP_EQ, ""));
+					collectSymbol(SymbolType::RELOP_EQ, "");
+					current_index_ += 2;
+					column_number_ += 2;
 				}
 				else
 				{  // “=”
-					symbols_.push_back(Symbol(SymbolType::ASSIGNMENT, ""));
+					collectSymbol(SymbolType::ASSIGNMENT, "");
+					current_index_ += 1;
+					column_number_ += 1;
 				}
-
 				continue;
 			}
 
 			if (token[0] == '+') {  // “+”
-				symbols_.push_back(Symbol(SymbolType::PLUS, ""));
+				collectSymbol(SymbolType::PLUS, "");
+				++current_index_;
+				++column_number_;
 				continue;
 			}
 
 			if (token[0] == '-') {  // “-”
-				symbols_.push_back(Symbol(SymbolType::SUBSTRACT, ""));
+				collectSymbol(SymbolType::SUBSTRACT, "");
+				++current_index_;
+				++column_number_;
 				continue;
 			}
 
 			if (token[0] == '*') {  // “*”
-				symbols_.push_back(Symbol(SymbolType::MULTIPLE, ""));
+				collectSymbol(SymbolType::MULTIPLE, "");
+				++current_index_;
+				++column_number_;
 				continue;
 			}
 
 			if (token[0] == '/') {  // “//”、“/*”或“/”
-				if (idx + 1 < source_code.length())
+				if (current_index_ + 1 < source_text_.length())
 				{
-					if (source_code[idx + 1] == '/')
+					if (source_text_[current_index_ + 1] == '/')
 					{  // “//”
-						++idx;
-						while (idx < source_code.length() && source_code[idx] != '\n') 
-							++idx;  // 滤除注释
-
+						current_index_ += 2;
+						while (current_index_ < source_text_.length() && source_text_[current_index_] != '\n')
+							++current_index_;  // 滤除注释
+						++current_index_;
+						++line_number_, column_number_ = 1;
 						continue;
 					}
-					else
+					else if (source_text_[current_index_ + 1] == '*')
 					{  // “/*”
-						++idx;
-						while (idx + 1 < source_code.length() && source_code.substr(idx, 2) != "*/")
-							++idx;  // 滤除注释
-						
+						current_index_ += 2, column_number_ += 2;
+						while (current_index_ + 1 < source_text_.length() && source_text_.substr(current_index_, 2) != "*/")
+						{
+							++current_index_;
+							if (source_text_[current_index_] != '\n') {
+								++column_number_;
+							}
+							else {
+								++line_number_, column_number_ = 1;
+							}
+						}
+						current_index_ += 2, column_number_ += 2;
 						continue;
 					}
 				}
 				else
 				{  // “/”
-					symbols_.push_back(Symbol(SymbolType::DIVIDE, ""));
-
+					collectSymbol(SymbolType::DIVIDE, "");
+					++current_index_, ++column_number_;
 					continue;
 				}
 			}
 
 			if (token[0] == '(') {  // “(”
-				symbols_.push_back(Symbol(SymbolType::LS_PARENTHESIS, ""));
+				collectSymbol(SymbolType::LS_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == ')') {  // “)”
-				symbols_.push_back(Symbol(SymbolType::RS_PARENTHESIS, ""));
+				collectSymbol(SymbolType::RS_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == '[') {  // “[”
-				symbols_.push_back(Symbol(SymbolType::LM_PARENTHESIS, ""));
+				collectSymbol(SymbolType::LM_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == ']') {  // “]”
-				symbols_.push_back(Symbol(SymbolType::RM_PARENTHESIS, ""));
+				collectSymbol(SymbolType::RM_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == '{') {  // “{”
-				symbols_.push_back(Symbol(SymbolType::LL_PARENTHESIS, ""));
+				collectSymbol(SymbolType::LL_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == '}') {  // “}”
-				symbols_.push_back(Symbol(SymbolType::RL_PARENTHESIS, ""));
+				collectSymbol(SymbolType::RL_PARENTHESIS, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == ',') {  // “,”
-				symbols_.push_back(Symbol(SymbolType::COMMA, ""));
+				collectSymbol(SymbolType::COMMA, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == ':') {  // “:”
-				symbols_.push_back(Symbol(SymbolType::COLON, ""));
+				collectSymbol(SymbolType::COLON, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
 			if (token[0] == ';') {  // “;”
-				symbols_.push_back(Symbol(SymbolType::SEMICOLON, ""));
+				collectSymbol(SymbolType::SEMICOLON, "");
+				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (isalpha(token[0]) || token[0] == '_') {  // 识别为关键词或标识符
-				size_t cur = idx + 1;  // 待分析的第一个字符的下标
-				while (cur < source_code.length() && (isalpha(source_code[cur]) || isdigit(source_code[cur]) || source_code[cur] == '_')) 
+			if (isalpha(token[0]) || token[0] == '_') {  // 关键词或标识符以字母或下划线开头
+				unsigned end_of_identifier_index = current_index_ + 1;  // 关键字或标志符最后一个字符在源代码中的下标
+				while (end_of_identifier_index < source_text_.length() && isLegalIdentifierCharacter(source_text_[end_of_identifier_index]))
 				{
-					token += source_code[cur];
-					cur += 1;
+					token += source_text_[end_of_identifier_index];
+					++end_of_identifier_index;
 				}
-
-				idx = cur - 1;  // 回退一个字符
+				--end_of_identifier_index;  // 回退一个字符
 				if (isKeyword(token)) {  // 识别为关键词
-					SymbolType type = keyword_to_symbol_type_[token];
-					symbols_.push_back(Symbol(type, ""));
+					collectSymbol(getSymbolOfKeyword(token) , "");
 				}
 				else {  // 识别为标识符
-					symbols_.push_back(Symbol(SymbolType::ID, token));
+					collectSymbol(SymbolType::ID, token);
 				}
-				
+				column_number_ += end_of_identifier_index - current_index_ + 1;
+				current_index_ = end_of_identifier_index + 1;
 				continue;
 			}
 
 			if (isdigit(token[0])) {  // 整数（不考虑小数）
-				size_t cur = idx + 1;
-				while (cur < source_code.length() && isdigit(source_code[cur])) {
-					token += source_code[cur];
-					cur += 1;
+				unsigned end_of_number_index = current_index_ + 1;
+				while (end_of_number_index < source_text_.length() && isdigit(source_text_[end_of_number_index])) {
+					token += source_text_[end_of_number_index];
+					++end_of_number_index;
 				}
-
-				idx = cur - 1;
-				symbols_.push_back(Symbol(SymbolType::INT, token));
+				collectSymbol(SymbolType::INT, token);
+				column_number_ += end_of_number_index - current_index_ + 1;
+				current_index_ = end_of_number_index + 1;
 				continue;
 			}
 
 			if (token[0] == '"') {  // 字符串
 				token = "";
-				size_t cur = idx + 1;
-				while (cur < source_code.length() && source_code[cur] != '"') {  // 不考虑转义字符
-					token += source_code[cur];
-					cur += 1;
+				unsigned end_of_string_index = current_index_ + 1;
+				while (end_of_string_index < source_text_.length() && source_text_[end_of_string_index] != '"') {  // 不考虑转义字符
+					token += source_text_[end_of_string_index];
+					end_of_string_index += 1;
 				}
-
-				idx = cur;
-				symbols_.push_back(Symbol(SymbolType::STRING, token));
+				collectSymbol(SymbolType::STRING, token);
+				column_number_ += end_of_string_index - current_index_ + 1;
+				current_index_ = end_of_string_index + 1;
 				continue;
 			}
 
 			if (token[0] == '>')  // “>”、“>=”
 			{
-				if (idx + 1 < source_code.length() && source_code[idx + 1] == '=')
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // “>=”
 				{
-					symbols_.push_back(Symbol(SymbolType::RELOP_GE, ""));
-					++idx;
+					collectSymbol(SymbolType::RELOP_GE, "");
+					current_index_ += 2, column_number_ += 2;
 					continue;
 				}
-
-				symbols_.push_back(Symbol(SymbolType::RELOP_GT, ""));
-				continue;
+				else {
+					collectSymbol(SymbolType::RELOP_GT, "");
+					++current_index_, ++column_number_;
+					continue;
+				}
 			}
 
 			if (token[0] == '<')  // “<”、“<=”
 			{
-				if (idx + 1 < source_code.length() && source_code[idx + 1] == '=')
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // “<=”
 				{
-					symbols_.push_back(Symbol(SymbolType::RELOP_LE, ""));
-					++idx;
+					collectSymbol(SymbolType::RELOP_LE, "");
+					current_index_ += 2, column_number_ += 2;
 					continue;
 				}
-
-				symbols_.push_back(Symbol(SymbolType::RELOP_LT, ""));
-				continue;
+				else {  // “<”
+					collectSymbol(SymbolType::RELOP_LT, "");
+					++current_index_, ++column_number_;
+					continue;
+				}
 			}
 
 			if (token[0] == '=')  // “=”、“==”
 			{
-				if (idx + 1 < source_code.length() && source_code[idx + 1] == '=')
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // “==”
 				{
-					symbols_.push_back(Symbol(SymbolType::RELOP_EQ, ""));
-					++idx;
+					collectSymbol(SymbolType::RELOP_EQ, "");
+					current_index_ += 2, column_number_ += 2;
 					continue;
 				}
+				else {  // “=”
+					collectSymbol(SymbolType::ASSIGNMENT, "");
+					++current_index_, ++column_number_;
+				}
 				
-				symbols_.push_back(Symbol(SymbolType::ASSIGNMENT, ""));
 				continue;
 			}
 
-			if (token[0] == '!' && idx + 1 < source_code.length() && source_code[idx+1] == '=')  // “!=”
+			if (token[0] == '!' && current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // “!=”
 			{  // 识别为“!=”
-				symbols_.push_back(Symbol(SymbolType::RELOP_NEQ, ""));
-				++idx;
+				collectSymbol(SymbolType::RELOP_NEQ, "");
+				++current_index_ += 2, column_number_ += 2;
 				continue;
 			}
 
@@ -285,9 +329,19 @@ namespace angelica
 		return keyword_to_symbol_type_.find(word) != keyword_to_symbol_type_.end();
 	}
 
+	bool Parser::isLegalIdentifierCharacter(char character)
+	{
+		return isalpha(character) || isdigit(character) || character == '_';
+	}
+
 	SymbolType Parser::getSymbolOfKeyword(string keyword)
 	{
 		return keyword_to_symbol_type_.at(keyword);
+	}
+
+	void Parser::collectSymbol(SymbolType symbol_type, string value)
+	{
+		symbols_.push_back(Symbol(symbol_type, value, line_number_, column_number_));
 	}
 
 	vector<Symbol>& Parser::GetSymbols()

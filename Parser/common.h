@@ -27,11 +27,13 @@ namespace angelica
 	// 单词符号
 	struct Symbol
 	{
-		SymbolType type;
-		string value;
+		SymbolType type;  // 单词符号种别
+		string value;     // 单词符号的值
 		unsigned line_number, column_number;  // 所在的行号和列号
 
-		Symbol(SymbolType type) : type(type) {};
-		Symbol(SymbolType type, string value) : type(type), value(value) {};
+
+		Symbol(SymbolType symbol_type, string value, unsigned line_number, unsigned column_number) :
+			type(symbol_type), value(value), line_number(line_number), column_number(column_number)
+		{};
 	};
 }
