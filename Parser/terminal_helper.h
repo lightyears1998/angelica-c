@@ -37,7 +37,7 @@ namespace angelica
 		TerminalHelper(Parser &parser, istream &in, ostream &out);
 
 		// 从输入流中读取源代码
-		string InputSourceText();
+		void InputSourceText();
 		
 		// 向输出流中打印一行
 		void PrintLine(string line);
@@ -46,7 +46,7 @@ namespace angelica
 		void PrintSymbol(Symbol symbol, bool show_line_and_column_nubmer = false);
 
 		// 输出字符串形式的单词符号到输出流
-		void PrintSymbols(vector<Symbol>& symbols, bool show_line_and_column_nubmer = false);
+		void PrintSymbols(bool show_line_and_column_nubmer = false);
 
 	private:
 		Parser &parser_;

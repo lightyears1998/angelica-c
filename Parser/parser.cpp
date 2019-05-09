@@ -57,13 +57,8 @@ namespace angelica
 		defineMnemonicsForSymbolType(SymbolType::RELOP_NEQ, "!=");
 	}
 
-	void Parser::Parse(string source_text)
+	void Parser::Parse()
 	{
-		source_text_ = source_text;
-		current_index_ = 0;
-		line_number_ = 1, column_number_ = 1;
-		symbols_.clear();  // 在词法分析开始前，清空保存单词符号的容器
-
 		while (current_index_ < source_text_.length())
 		{
 			string token;  // 用于保存单词符号的字符串
@@ -350,15 +345,16 @@ namespace angelica
 		return symbols_;
 	}
 
+	void Parser::SetSourceText(string source_text)
+	{
+		source_text_ = source_text;
+		current_index_ = 0;
+		line_number_ = 1, column_number_ = 1;
+		symbols_.clear();
+	}
+
 	string Parser::GetMnemonicsOfSymbolType(SymbolType symbol_type)
 	{
 		return symbol_type_to_mnemonics_[symbol_type];
-	}
-
-	string Parser::GetSymbolString(Symbol symbol)
-	{
-		string mnemonics = symbol_type_to_mnemonics_[symbol.type];
-		string value = symbol.value != "" ? symbol.value : "null";
-		return string("(") + mnemonics + string(", ") + value + string(")");
 	}
 }

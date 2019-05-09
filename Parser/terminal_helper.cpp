@@ -13,7 +13,7 @@ TerminalHelper::TerminalHelper(Parser &parser, istream & in, ostream & out)
 	colorsheet_[SymbolType::INT] = TerminalColor::BRIGHT_YELLOW;
 }
 
-string TerminalHelper::InputSourceText()
+void TerminalHelper::InputSourceText()
 {
 	out_ << "请输入源代码，以(Ctrl+Z)作为结束标志：" << endl;
 	
@@ -26,7 +26,7 @@ string TerminalHelper::InputSourceText()
 	}
 	in_.clear();
 
-	return source_text;
+	parser_.SetSourceText(source_text);
 }
 
 void angelica::TerminalHelper::PrintLine(string line)
@@ -49,8 +49,9 @@ void angelica::TerminalHelper::PrintSymbol(Symbol symbol, bool show_line_and_col
 }
 
 
-void angelica::TerminalHelper::PrintSymbols(vector<Symbol>& symbols, bool show_line_and_column_nubmer)
+void angelica::TerminalHelper::PrintSymbols(bool show_line_and_column_nubmer)
 {
+	vector<Symbol>& symbols = parser_.GetSymbols();
 	for (unsigned index = 0; index < symbols.size(); ++index)
 	{
 		PrintSymbol(symbols[index], show_line_and_column_nubmer);

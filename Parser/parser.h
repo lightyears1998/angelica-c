@@ -16,18 +16,18 @@ namespace angelica
 	{
 	public:
 		Parser();
-		
-		// 对指定souce_code进行词法分析
-		void Parse(string source_code);
+
+		// 设置待解析的源代码
+		void SetSourceText(string source_text);
+
+		// 对当前指定的源代码进行词法分析
+		void Parse();
 
 		// 返回保存单词符号的数组
 		vector<Symbol>& GetSymbols();
 
 		// 获取单词符号类型的助记符
 		string GetMnemonicsOfSymbolType(SymbolType symbol_type);
-
-		// 返回单词符号的字符串表示
-		string GetSymbolString(Symbol symbol);
 
 	private:
 		// 定义单词符号种别的助记符

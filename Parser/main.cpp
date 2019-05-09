@@ -16,11 +16,10 @@ int main()
 	Parser parser;
 	TerminalHelper helper(parser, cin, cout);
 
-	string input = helper.InputSourceText();
+	helper.InputSourceText();  // 从命令行输入源代码
+	
+	parser.Parse();  // 进行词法分析
 
-	// 进行词法分析
-	parser.Parse(input);
-
-	// 打印已经分析的单词符号
-	helper.PrintSymbols(parser.GetSymbols(), true);
+	bool show_column_and_line_nubmer = true;
+	helper.PrintSymbols(show_column_and_line_nubmer);  // 打印已经分析的单词符号
 }
