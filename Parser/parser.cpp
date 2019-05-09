@@ -350,6 +350,11 @@ namespace angelica
 		return symbols_;
 	}
 
+	string Parser::GetMnemonicsOfSymbolType(SymbolType symbol_type)
+	{
+		return symbol_type_to_mnemonics_[symbol_type];
+	}
+
 	string Parser::GetSymbolString(Symbol symbol)
 	{
 		string mnemonics = symbol_type_to_mnemonics_[symbol.type];

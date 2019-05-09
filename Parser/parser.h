@@ -23,6 +23,9 @@ namespace angelica
 		// 返回保存单词符号的数组
 		vector<Symbol>& GetSymbols();
 
+		// 获取单词符号类型的助记符
+		string GetMnemonicsOfSymbolType(SymbolType symbol_type);
+
 		// 返回单词符号的字符串表示
 		string GetSymbolString(Symbol symbol);
 
