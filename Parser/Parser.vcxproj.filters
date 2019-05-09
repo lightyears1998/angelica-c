@@ -24,9 +24,6 @@
     <ClCompile Include="parser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="common.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="terminal_helper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
