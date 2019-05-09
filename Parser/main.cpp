@@ -20,5 +20,7 @@ int main()
 
 	// 进行词法分析
 	parser.Parse(input);
-	helper.PrintSymbols(parser.GetSymbols());
+
+	// 打印已经分析的单词符号
+	helper.PrintSymbols(parser.GetSymbols(), true);
 }

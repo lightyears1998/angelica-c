@@ -40,7 +40,7 @@ void angelica::TerminalHelper::PrintSymbol(Symbol symbol, bool show_line_and_col
 	TerminalColor terminal_color = getSymbolTypeColor(symbol.type);
 	out_ << "(";
 	setTextColor(terminal_color); out_ << parser_.GetMnemonicsOfSymbolType(symbol.type);
-	out_ << ", "; out_ << symbol.value;
+	out_ << ", "; out_ << (symbol.value != "" ? symbol.value : "null");
 	resetTextColor();
 	if (show_line_and_column_nubmer) {
 		out_ << ", " << to_string(symbol.line_number) << ":" << to_string(symbol.column_number);
