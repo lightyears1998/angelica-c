@@ -1,0 +1,84 @@
+# ≤‚ ‘”√¿˝
+
+## CASE 1
+
+int main() {
+	// A simple Test Function.
+}
+
+--------
+
+(int, null, 1:1) (main, null, 1:5) ((, null, 1:9) (), null, 1:10) ({, null, 1:12)
+(}, null, 3:1)
+
+## CASE 2
+
+int number = 42;
+char str[] = "This is a string.";
+
+--------
+
+(int, null, 1:1) (ID, number, 1:5) (=, null, 1:12) (INT, 42, 1:14) (;, null, 1:16)
+(char, null, 2:1) (ID, str, 2:6) ([, null, 2:9) (], null, 2:10) (=, null, 2:12) (STRING, This is a string., 2:14) (;, null, 2:33)
+
+## CASE 3
+
+void Fibonacci() {
+    int a = 1;
+    int b = 1;
+    while (a <= 101)
+    {
+        printf("%d\n", a);
+        b = a + b;
+        a = b;
+    }
+}
+
+--------
+
+(void, null, 1:1) (ID, Fibonacci, 1:6) ((, null, 1:15) (), null, 1:16) ({, null, 1:18)
+(int, null, 2:5) (ID, a, 2:9) (=, null, 2:11) (INT, 1, 2:13) (;, null, 2:14)
+(int, null, 3:5) (ID, b, 3:9) (=, null, 3:11) (INT, 1, 3:13) (;, null, 3:14)
+(while, null, 4:5) ((, null, 4:11) (ID, a, 4:12) (<=, null, 4:14) (INT, 101, 4:17) (), null, 4:20)
+({, null, 5:5)
+(ID, printf, 6:9) ((, null, 6:15) (STRING, %d\n, 6:16) (,, null, 6:22) (ID, a, 6:24) (), null, 6:25) (;, null, 6:26)
+(ID, b, 7:9) (=, null, 7:11) (ID, a, 7:13) (+, null, 7:15) (ID, b, 7:17) (;, null, 7:18)
+(ID, a, 8:9) (=, null, 8:11) (ID, b, 8:13) (;, null, 8:14)
+(}, null, 9:5)
+(}, null, 10:1)
+
+## CASE 4
+
+int one = 1;
+int two = 2;
+one + two;
+one * two;
+one / two;
+one - two;
+goto: /*
+    Mutiline Comments.
+*/
+one == two;
+one != two;
+one >  two;
+one >= two;
+one <  two;
+one <= two;
+one =  two;
+
+--------
+
+(int, null, 1:1) (ID, one, 1:5) (=, null, 1:9) (INT, 1, 1:11) (;, null, 1:12)
+(int, null, 2:1) (ID, two, 2:5) (=, null, 2:9) (INT, 2, 2:11) (;, null, 2:12)
+(ID, one, 3:1) (+, null, 3:5) (ID, two, 3:7) (;, null, 3:10)
+(ID, one, 4:1) (*, null, 4:5) (ID, two, 4:7) (;, null, 4:10)
+(ID, one, 5:1) (/, null, 5:5) (ID, two, 5:7) (;, null, 5:10)
+(ID, one, 6:1) (-, null, 6:5) (ID, two, 6:7) (;, null, 6:10)
+(ID, goto, 7:1) (:, null, 7:5)
+(ID, one, 9:1) (==, null, 9:5) (ID, two, 9:8) (;, null, 9:11)
+(ID, one, 10:1) (!=, null, 10:5) (ID, two, 10:7) (;, null, 10:10)
+(ID, one, 11:1) (>, null, 11:5) (ID, two, 11:8) (;, null, 11:11)
+(ID, one, 12:1) (>=, null, 12:5) (ID, two, 12:8) (;, null, 12:11)
+(ID, one, 13:1) (<, null, 13:5) (ID, two, 13:8) (;, null, 13:11)
+(ID, one, 14:1) (<=, null, 14:5) (ID, two, 14:8) (;, null, 14:11)
+(ID, one, 15:1) (=, null, 15:5) (ID, two, 15:8) (;, null, 15:11)

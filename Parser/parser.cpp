@@ -147,12 +147,11 @@ namespace angelica
 						continue;
 					}
 				}
-				else
-				{  // ¡°/¡±
-					collectSymbol(SymbolType::DIVIDE, "");
-					++current_index_, ++column_number_;
-					continue;
-				}
+				
+				// ¡°/¡±
+				collectSymbol(SymbolType::DIVIDE, "");
+				++current_index_, ++column_number_;
+				continue;
 			}
 
 			if (token[0] == '(') {  // ¡°(¡±
