@@ -1,3 +1,8 @@
+// parser.h
+//
+// 词法分析器class Parser的定义。
+
+
 #pragma once
 
 #include "common.h"

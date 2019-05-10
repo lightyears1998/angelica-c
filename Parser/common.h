@@ -1,3 +1,9 @@
+// commom.h
+//
+// 定义单词符号的种别enum SymbolType，
+// 以及单词符号struct Symbol。
+
+
 #pragma once
 
 #include <string>

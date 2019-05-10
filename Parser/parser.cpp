@@ -1,3 +1,8 @@
+// parser.cpp
+//
+// 词法分析器class Parser的实现。 
+
+
 #include "parser.h"
 
 

@@ -1,3 +1,8 @@
+// terminal_helper.h
+// 
+// 命令行输入输出助手TerminalHelper的定义。
+
+
 #pragma once
 
 #include "common.h"

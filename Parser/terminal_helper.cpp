@@ -1,3 +1,8 @@
+// terminalHelper.cpp
+//
+// 命令行输入输出助手class TerminalHelper的实现。
+
+
 #include "terminal_helper.h"
 
 

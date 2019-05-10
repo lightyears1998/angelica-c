@@ -1,3 +1,8 @@
+// main.cpp
+//
+// 词法分析的测试单元。
+
+
 #include "parser.h"
 #include "terminal_helper.h"
 
