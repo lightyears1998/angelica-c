@@ -3,7 +3,7 @@
 // 词法分析的测试单元。
 
 
-#include "parser.h"
+#include "cparser.h"
 #include "terminal_helper.h"
 
 #include <iostream>
@@ -18,7 +18,7 @@ using namespace angelica;
 // 从标准输入中读取源代码，并输出单词符号
 int main()
 {	
-	Parser parser;
+	CParser parser;
 	TerminalHelper helper(parser, cin, cout);
 
 	helper.InputSourceText();  // 从命令行输入源代码

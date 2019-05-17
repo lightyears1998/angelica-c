@@ -34,7 +34,7 @@ namespace angelica
 		// 获取单词符号类型的助记符
 		string GetMnemonicsOfSymbolType(SymbolType symbol_type);
 
-	private:
+	protected:
 		// 定义单词符号种别的助记符
 		void defineMnemonicsForSymbolType(SymbolType symbol_type, string mnemonics);
 		
