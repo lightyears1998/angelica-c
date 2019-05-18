@@ -46,7 +46,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SourceCodeSample.txt">
+    <Text Include="TestCases.txt">
       <Filter>测试</Filter>
     </Text>
   </ItemGroup>

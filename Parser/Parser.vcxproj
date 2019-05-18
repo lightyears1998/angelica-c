@@ -139,7 +139,7 @@
     <ClInclude Include="terminal_helper.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SourceCodeSample.txt" />
+    <Text Include="TestCases.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
