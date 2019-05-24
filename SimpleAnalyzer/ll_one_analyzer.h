@@ -9,32 +9,38 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <utility>
 
 
 namespace angelica
 {
-	// LL(1)分析表
+	using namespace std;	
+
+	// LL(1)分析器
 	class LLOneAnalyzer
 	{
 	public:
 		LLOneAnalyzer();
 
-		// 定义语法符号
-		void DefineGrammarSymbol(string mark, GrammarSymbolType type);
-
 		// 定义文法的开始符号
-		void DefineStartSymbol(string mark);
+		void DefineStartSymbol(Symbol symbol);
 
 		// 定义语法规则
-		void DefineGrammarRule(pair<string, string> line_column_pair, pair<string, string> left_right_part_pair);
+		void DefineGrammarRule(pair<Symbol, Symbol> line_column_pair, vector<Symbol> right_part);
+
+		// 输出语法规则
+		void PrintGrammarRules();
+
+		// 以表格形式输出语法规则
+		void PrintGrammarRulesTable();
+
+		// 判断一个句子是否符合所给定的文法
+		bool Judge(vector<Symbol> sequence);
 
 	private:
-		// 取得某个语法符号的类型
-		GrammarSymbolType getGrammarSymbolType(string mark);
 		
-		string start_symbol_;                                    // 文法的开始符号
-		map<string, GrammarSymbolType> symbols_;                 // 语法符号表
-		map<pair<string, string>, pair<string, string>> table_;  // 分析表
+		string start_symbol_;  // 文法的开始符号
+		map<pair<Symbol, Symbol>, vector<Symbol>> table_;  // 分析表
 	};
 }
