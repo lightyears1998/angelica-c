@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="angelica::LLOneAnalyzer">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAABAAAhAAAAAAAAAABAAAAAAAACAgAA=</HashCode>
+      <FileName>ll_one_analyzer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="angelica::GrammarSymbolType">
+    <Position X="4.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>common.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
