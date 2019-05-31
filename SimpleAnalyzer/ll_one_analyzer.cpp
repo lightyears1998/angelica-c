@@ -34,6 +34,9 @@ namespace angelica
 		DefineGrammarRule(make_pair("T'", "#"), vector<Symbol>{"ε"});
 		DefineGrammarRule(make_pair("F", "i"), vector<Symbol>{"i"});
 		DefineGrammarRule(make_pair("F", "("), vector<Symbol>{"(", "E", ")"});
+
+		// 以表格形式打印定义的语法规则
+		PrintGrammarRulesTable();
 	}
 
 
@@ -110,8 +113,6 @@ namespace angelica
 		sequence.push_back("#");           // 在句子末尾附加结束标记
 		symbol_stack.push("#");            // 压入结束标记
 		symbol_stack.push(start_symbol_);  // 将开始符号入栈
-
-		PrintGrammarRulesTable();
 		
 		cout << "符号栈\t\t待分析的符号" << endl;
 		while (!symbol_stack.empty())  // 当符号栈不为空
