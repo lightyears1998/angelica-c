@@ -115,14 +115,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Parser\parser.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Parser\common.h" />
-    <ClInclude Include="..\Parser\parser.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="文法输入.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="cparser.h" />
+    <ClInclude Include="parser.h" />
+    <ClInclude Include="terminal_helper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cparser.cpp" />
+    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="terminal_helper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
