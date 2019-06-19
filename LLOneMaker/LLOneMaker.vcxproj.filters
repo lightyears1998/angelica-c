@@ -18,12 +18,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="文法输入.txt">
-      <Filter>测试用例</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ll_one_analyzer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -31,5 +32,19 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="parser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ll_one_analyzer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="测试1.txt">
+      <Filter>测试用例</Filter>
+    </Text>
   </ItemGroup>
 </Project>

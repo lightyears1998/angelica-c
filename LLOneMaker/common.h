@@ -7,7 +7,7 @@
 #pragma once
 
 #include <string>
-
+#include <ostream>
 
 namespace angelica
 {
@@ -23,15 +23,37 @@ namespace angelica
 	};
 
 	// 单词符号
+	// 空终结符使用Symbol(SymbolType::TERMINAL, "ε")表示。
 	struct Symbol
 	{
 		SymbolType type;  // 单词符号种别
 		string value;     // 单词符号的值
-		unsigned line_number, column_number;  // 所在的行号和列号
 
+		// 默认构造空的终结符。
+		Symbol();
 
-		Symbol(SymbolType symbol_type, string value, unsigned line_number, unsigned column_number) :
-			type(symbol_type), value(value), line_number(line_number), column_number(column_number)
-		{};
+		// 使用单一value进行构造时，默认type为STRUCTRUE。
+		Symbol(const string& value);
+		
+		Symbol(SymbolType type, const string& value);
+
+		bool operator == (const Symbol& rhs) const {
+			return type == rhs.type && value == rhs.value;
+		}
+
+		bool operator != (const Symbol& rhs) const {
+			return type != rhs.type || value != rhs.value;
+		}
+
+		bool operator < (const Symbol& rhs) const {
+			if (type != rhs.type) {
+				return type < rhs.type;
+			}
+			return value < rhs.value;
+		}
 	};
+
+	ostream& operator << (ostream&out, const Symbol sym);
+
+	const Symbol NULL_SYMBOL = Symbol(SymbolType::TERMINAL, "ε");
 }
