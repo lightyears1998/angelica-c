@@ -14,6 +14,9 @@ namespace angelica
 	using namespace std;
 
 	// 单词符号的种别
+	// TERMINAL    - 终结符
+	// NONTERMINAL - 非终结符
+	// STRUCTURE   - 文法中的“→”、“|”等结构性字符
 	enum class SymbolType : int
 	{
 		TERMINAL, NONTERMINAL, STRUCTURE
