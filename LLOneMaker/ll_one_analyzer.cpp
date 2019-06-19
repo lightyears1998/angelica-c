@@ -17,10 +17,7 @@ namespace angelica
 
 	LLOneAnalyzer::LLOneAnalyzer()
 	{
-		//// 定义文法开始符号
-		//DefineStartSymbol("E");
-
-		//// 录入分析表中的规则
+		// 录入分析表中的规则
 		//DefineGrammarRule(make_pair("E", "i"), vector<Symbol>{"T", "E'"});
 		//DefineGrammarRule(make_pair("E", "("), vector<Symbol>{"T", "E'"});
 		//DefineGrammarRule(make_pair("E'", "+"), vector<Symbol>{"+", "T", "E'"});
@@ -34,9 +31,6 @@ namespace angelica
 		//DefineGrammarRule(make_pair("T'", "#"), vector<Symbol>{"ε"});
 		//DefineGrammarRule(make_pair("F", "i"), vector<Symbol>{"i"});
 		//DefineGrammarRule(make_pair("F", "("), vector<Symbol>{"(", "E", ")"});
-
-		// 以表格形式打印定义的语法规则
-		PrintGrammarRulesTable();
 	}
 
 
@@ -110,8 +104,8 @@ namespace angelica
 		stack<Symbol> symbol_stack;        // 符号栈
 		unsigned next_symbol_index = 0;    // 句子中下一个待分析的符号的下标
 
-		sequence.push_back(Symbol("#"));           // 在句子末尾附加结束标记
-		symbol_stack.push(Symbol("#"));            // 压入结束标记
+		sequence.push_back(SYMBOL_END);           // 在句子末尾附加结束标记
+		symbol_stack.push(SYMBOL_END);            // 压入结束标记
 		symbol_stack.push(start_symbol_);  // 将开始符号入栈
 		
 		cout << "符号栈\t\t待分析的符号" << endl;
@@ -154,7 +148,7 @@ namespace angelica
 				vector<Symbol> symbols(table_[line_column_pair]);  // 取得推导规则中的右部
 				symbol_stack.pop();  // 弹出符号栈栈顶元素
 	
-				if (symbols[0] == NULL_SYMBOL) {  // 如果右部为空字符
+				if (symbols[0] == SYMBOL_NULL) {  // 如果右部为空字符
 					continue;
 				}
 				else {

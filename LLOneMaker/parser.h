@@ -16,10 +16,13 @@ namespace angelica
 	class Parser
 	{
 	private:
-		// istream &in_;
+		istream &in_;
 
 	public:
-		
+		Parser(istream& in) : in_(in) {};
 		~Parser() = default;
+
+		// 从输入流中解析单词符号，直到遇到换行符。
+		vector<Symbol> ParseLineFromInputStream();
 	};
 }

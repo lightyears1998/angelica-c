@@ -55,5 +55,6 @@ namespace angelica
 
 	ostream& operator << (ostream&out, const Symbol sym);
 
-	const Symbol NULL_SYMBOL = Symbol(SymbolType::TERMINAL, "ε");
+	const Symbol SYMBOL_NULL = Symbol(SymbolType::TERMINAL, "ε");  // 空终结符ε
+	const Symbol SYMBOL_END = Symbol(SymbolType::STRUCTURE, "#");  // 文法开始/文法结束/定界符
 }
