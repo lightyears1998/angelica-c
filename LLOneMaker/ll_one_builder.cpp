@@ -110,10 +110,71 @@ namespace angelica {
 
 		cout << "构造的First集合" << endl;
 		for (Symbol left : nonterminal_set) {
-			cout << "First(" << left << ") = {";
-			
+			cout << "First(" << left << ") = { ";
+
 			for (Symbol elem : getPossibleFirstTerminalSymbol(left)) {
 				cout << elem << " ";
+			}
+			cout << "}" << endl;
+		}
+		cout << endl;
+
+		// 获取一个终结符之后所可能推导出的第一个非终结符的集合（Next集）
+		function<set<Symbol>(Symbol)> getPossibleNextTerminalSymbol = [&](Symbol left) {
+			set<Symbol> possible_terminal;
+
+			// 遍历所有的产生式
+			for (auto it = nonterminal_set.begin(); it != nonterminal_set.end(); ++it) {
+				Symbol current_left = *it;
+				auto current_right = left_to_right[current_left];
+
+				// 遍历一条复杂产生式中所有的字符
+				bool continueInNeed = false;  // 在一些情况下需要忽略循环中current_right[it] == left的判定而继续
+				for (size_t it = 0; it < current_right.size(); ++it) {
+					if (current_right[it] == left || continueInNeed) {
+						continueInNeed = false;  // 避免无条件的忽略判定
+
+						if (it + 1 == current_right.size() || current_right[it + 1] == Symbol(SymbolType::STRUCTURE, "|")) { // 右边的一个字符是界
+							if (current_left == start_symbol) {
+								possible_terminal.insert(SYMBOL_END);
+							}
+							else if (current_left != left) {
+								auto next_set_of_current_left = getPossibleNextTerminalSymbol(current_left);
+								possible_terminal.insert(next_set_of_current_left.begin(), next_set_of_current_left.end());
+							}
+						}
+						else {  // 右边字符是终结符或非终结符
+							Symbol next_symbol = current_right[it + 1];
+
+							if (next_symbol.type == SymbolType::TERMINAL) {
+								possible_terminal.insert(next_symbol);
+							}
+							else {  // next_symbol.type == SymbolType::NONTERMINAL
+								auto first_set_of_next_symbol = getPossibleFirstTerminalSymbol(next_symbol);
+								if (first_set_of_next_symbol.count(SYMBOL_NULL) != 0) {
+									continueInNeed = true;
+									first_set_of_next_symbol.erase(SYMBOL_NULL);
+								}
+								possible_terminal.insert(first_set_of_next_symbol.begin(), first_set_of_next_symbol.end());
+							}
+						}
+					}
+				}
+			}
+
+			if (left == start_symbol) {
+				possible_terminal.insert(SYMBOL_END);
+			}
+			return possible_terminal;
+		};
+
+		cout << "构造的Next集合：" << endl;
+		for (Symbol sym : nonterminal_set) {
+			cout << "Next(" << sym << ")= { ";
+			
+			auto next_set = getPossibleNextTerminalSymbol(sym);
+			for (Symbol sym : next_set) {
+				cout << sym << " ";
 			}
 			cout << "}" << endl;
 		}
@@ -145,23 +206,14 @@ namespace angelica {
 					}
 					
 				}
-				else if (current_right[0].type == SymbolType::TERMINAL) {
+				else if (current_right[0].type == SymbolType::TERMINAL && current_right[0] != SYMBOL_NULL) {
 					// 若右部的第一个符号为终结符，则该产生式只可能推导出这个终结符
 					possible_terminal.insert(current_right[0]);
 				}
 				else {  // current_right[0] == SYMBOL_NULL
 					// 若右部是一个空终结符，则需要考虑其他产生式才能得到该产生式所可能推导出的终结符
 					// 这个分支本质上是求Follow集
-					for (Symbol consider_left : nonterminal_set) {
-						if (consider_left == left) continue;
-
-						auto consider_right = left_to_right[consider_left];
-						for (size_t it = 0; it < consider_right.size(); ++it) {
-							if (consider_right[it] == left) {
-								// NEED FOLLOW
-							}
-						}
-					}
+					possible_terminal = getPossibleNextTerminalSymbol(left);
 				}
 
 				// 对此产生式，在分析表中进行标记
