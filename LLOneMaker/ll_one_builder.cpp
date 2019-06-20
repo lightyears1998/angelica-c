@@ -86,6 +86,8 @@ namespace angelica {
 		
 		// 获取一个终结符所可能推导出的第一个非终结符的集合（First集）
 		function<set<Symbol>(Symbol)> getPossibleFirstTerminalSymbol = [&](Symbol left) {
+			cout << "first(" << left << ")" << endl;
+
 			set<Symbol> possible_terminal;
 			
 			auto right = left_to_right[left];
@@ -121,6 +123,8 @@ namespace angelica {
 
 		// 获取一个终结符之后所可能推导出的第一个非终结符的集合（Next集）
 		function<set<Symbol>(Symbol)> getPossibleNextTerminalSymbol = [&](Symbol left) {
+			cout << "next(" << left << ")" << endl;
+
 			set<Symbol> possible_terminal;
 
 			// 遍历所有的产生式
