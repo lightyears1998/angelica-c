@@ -136,13 +136,10 @@ namespace angelica {
 				bool continueInNeed = false;  // 在一些情况下需要忽略循环中current_right[it] == left的判定而继续
 				for (size_t it = 0; it < current_right.size(); ++it) {
 					if (current_right[it] == left || continueInNeed) {
-						continueInNeed = false;  // 避免无条件的忽略判定
+						continueInNeed = false;  // 重置标记
 
 						if (it + 1 == current_right.size() || current_right[it + 1] == Symbol(SymbolType::STRUCTURE, "|")) { // 右边的一个字符是界
-							if (current_left == start_symbol) {
-								possible_terminal.insert(SYMBOL_END);
-							}
-							else if (current_left != left) {
+							if (current_left != left) {
 								auto next_set_of_current_left = getPossibleNextTerminalSymbol(current_left);
 								possible_terminal.insert(next_set_of_current_left.begin(), next_set_of_current_left.end());
 							}
