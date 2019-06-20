@@ -20,10 +20,10 @@ namespace angelica {
 	private:
 		Parser parser_;                             // 输入文法使用的词法分析器
 
-		LLOneAnalyzer analyzer;                     // 与输入文法对应的分析器
-		set<Symbol> nonterminal_set;                // 保存所有非终结符的集合
-		Symbol start_symbol;                        // 保存文法的开始符号
-		map<Symbol, vector<Symbol>> left_to_right;  // 左部非终结符到右部符号的映射
+		LLOneAnalyzer analyzer_;                     // 与输入文法对应的分析器
+		set<Symbol> nonterminal_set_;                // 保存所有非终结符的集合
+		Symbol start_symbol_;                        // 保存文法的开始符号
+		map<Symbol, vector<Symbol>> left_to_right_;  // 左部非终结符到右部符号的映射
 
 	public:
 		LLOneBuilder(Parser &parser) : parser_(parser) {};

@@ -18,7 +18,7 @@ namespace angelica {
 		printFollowSet();             // 打印Follow集
 
 		buildAnalyzer();  // 生成文法对应的分析器
-		return analyzer;
+		return analyzer_;
 	}
 
 	void LLOneBuilder::getInputFromParser()
@@ -26,8 +26,8 @@ namespace angelica {
 		vector<Symbol> line = parser_.ParseLineFromInputStream(); // 从Parser中获取第一行输入
 
 		// 将第一条产生式的左部定义为文法的开始符号
-		start_symbol = line[0];
-		analyzer.DefineStartSymbol(start_symbol);
+		start_symbol_ = line[0];
+		analyzer_.DefineStartSymbol(start_symbol_);
 
 		for (line; line.size() != 0; line = parser_.ParseLineFromInputStream()) {
 			// 程序假定来自Parser的输出符合LL(1)文法。
@@ -35,7 +35,7 @@ namespace angelica {
 			Symbol left = line[0];
 			vector<Symbol> right(line.begin() + 2, line.end());
 
-			nonterminal_set.insert(left);
+			nonterminal_set_.insert(left);
 
 			// 程序仅考虑形如 A→Aα|β 和 A→α 两种形式的产生式
 			if (line[2] == line[0]) {  // A→Aα|β 需要消除左递归的情况
@@ -48,7 +48,7 @@ namespace angelica {
 				vector<Symbol> beta(delim + 1, right.end());
 
 				Symbol adapted{ SymbolType::NONTERMINAL, left.value + "'" };
-				nonterminal_set.insert(adapted);
+				nonterminal_set_.insert(adapted);
 
 				// βA'
 				vector<Symbol> beta_adapted(beta);
@@ -61,11 +61,11 @@ namespace angelica {
 				alpha_adapted_epsilon.push_back(SYMBOL_NULL);
 
 				// A→βA', A'→αA'|ε
-				left_to_right[left] = beta_adapted;
-				left_to_right[adapted] = alpha_adapted_epsilon;
+				left_to_right_[left] = beta_adapted;
+				left_to_right_[adapted] = alpha_adapted_epsilon;
 			}
 			else {  // A→α 不需要消除左递归的情况
-				left_to_right[left] = right;
+				left_to_right_[left] = right;
 			}
 		}
 		cout << endl;
@@ -76,7 +76,7 @@ namespace angelica {
 		cout << "消除左递归后的文法：" << endl;
 
 		// 算法的局限性：只能消除直接左递归，只能处理 A→Aα|β 和 A→α 两种形式的产生式
-		for (auto it = left_to_right.begin(); it != left_to_right.end(); ++it) {
+		for (auto it = left_to_right_.begin(); it != left_to_right_.end(); ++it) {
 			cout << it->first;
 			cout << "→";
 			for (Symbol sym : it->second) {
@@ -95,17 +95,17 @@ namespace angelica {
 	void LLOneBuilder::printNonterminalSymbolSet()
 	{
 		cout << "文法的非终结符集合：";
-		for (auto it = nonterminal_set.begin(); it != nonterminal_set.end(); ++it) {
+		for (auto it = nonterminal_set_.begin(); it != nonterminal_set_.end(); ++it) {
 			cout << it->value << " ";
 		}
 		cout << endl;
-		cout << "其中，文法的开始符号为：" << start_symbol << endl << endl;
+		cout << "其中，文法的开始符号为：" << start_symbol_ << endl << endl;
 	}
 
 	void LLOneBuilder::printFirstSet()
 	{
 		cout << "构造的First集合" << endl;
-		for (Symbol left : nonterminal_set) {
+		for (Symbol left : nonterminal_set_) {
 			cout << "First(" << left << ")\t= { ";
 			for (Symbol elem : getPossibleFirstTerminalSymbol(left)) {
 				cout << elem << " ";
@@ -120,7 +120,7 @@ namespace angelica {
 	void LLOneBuilder::printFollowSet()
 	{
 		cout << "构造的Follow集合：" << endl;
-		for (Symbol sym : nonterminal_set) {
+		for (Symbol sym : nonterminal_set_) {
 			cout << "Follow(" << sym << ")\t= { ";
 
 			auto next_set = getPossibleFollowTerminalSymbol(sym);
@@ -135,9 +135,9 @@ namespace angelica {
 	void LLOneBuilder::buildAnalyzer()
 	{
 		// 根据产生式产生分析表
-		for (auto it = nonterminal_set.begin(); it != nonterminal_set.end(); ++it) {
+		for (auto it = nonterminal_set_.begin(); it != nonterminal_set_.end(); ++it) {
 			Symbol left = *it;
-			auto right = left_to_right[left];
+			auto right = left_to_right_[left];
 
 			// 程序仅考虑形如 A→Aα|β 和 A→α 两种形式的产生式
 			// 对于形如 A→Aα|β 的产生式，要将右部按“|”分隔为A→Aα，A→β两个产生式进行处理
@@ -172,20 +172,20 @@ namespace angelica {
 
 				// 对此产生式，在分析表中进行标记
 				for (Symbol terminal : possible_terminal) {
-					analyzer.DefineGrammarRule(make_pair(left, terminal), current_right);
+					analyzer_.DefineGrammarRule(make_pair(left, terminal), current_right);
 				}
 			}
 		}
 
 		// 打印产生的分析表
-		analyzer.PrintGrammarRulesTable();
+		analyzer_.PrintGrammarRulesTable();
 	}
 
 	set<Symbol> LLOneBuilder::getPossibleFirstTerminalSymbol(Symbol left)
 	{
 		set<Symbol> possible_terminal;
 
-		auto right = left_to_right[left];
+		auto right = left_to_right_[left];
 		for (size_t it = 0; it < right.size(); ++it) {
 			Symbol current = right[it];
 			if (current.type == SymbolType::TERMINAL) {
@@ -210,9 +210,9 @@ namespace angelica {
 		set<Symbol> possible_terminal;
 
 		// 遍历所有的产生式
-		for (auto it = nonterminal_set.begin(); it != nonterminal_set.end(); ++it) {
+		for (auto it = nonterminal_set_.begin(); it != nonterminal_set_.end(); ++it) {
 			Symbol current_left = *it;
-			auto current_right = left_to_right[current_left];
+			auto current_right = left_to_right_[current_left];
 
 			// 遍历一条复杂产生式中所有的字符
 			bool continueInNeed = false;  // 在一些情况下需要忽略循环中current_right[it] == left的判定而继续
@@ -245,7 +245,7 @@ namespace angelica {
 			}
 		}
 
-		if (left == start_symbol) {
+		if (left == start_symbol_) {
 			possible_terminal.insert(SYMBOL_END);
 		}
 		return possible_terminal;
