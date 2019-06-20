@@ -14,26 +14,6 @@ namespace angelica
 {
 	using namespace std;
 
-
-	LLOneAnalyzer::LLOneAnalyzer()
-	{
-		// 录入分析表中的规则
-		//DefineGrammarRule(make_pair("E", "i"), vector<Symbol>{"T", "E'"});
-		//DefineGrammarRule(make_pair("E", "("), vector<Symbol>{"T", "E'"});
-		//DefineGrammarRule(make_pair("E'", "+"), vector<Symbol>{"+", "T", "E'"});
-		//DefineGrammarRule(make_pair("E'", ")"), vector<Symbol>{"ε"});
-		//DefineGrammarRule(make_pair("E'", "#"), vector<Symbol>{"ε"});
-		//DefineGrammarRule(make_pair("T", "i"), vector<Symbol>{"F", "T'"});
-		//DefineGrammarRule(make_pair("T", "("), vector<Symbol>{"F", "T'"});
-		//DefineGrammarRule(make_pair("T'", "+"), vector<Symbol>{"ε"});
-		//DefineGrammarRule(make_pair("T'", "*"), vector<Symbol>{"*", "F", "T'"});
-		//DefineGrammarRule(make_pair("T'", ")"), vector<Symbol>{"ε"});
-		//DefineGrammarRule(make_pair("T'", "#"), vector<Symbol>{"ε"});
-		//DefineGrammarRule(make_pair("F", "i"), vector<Symbol>{"i"});
-		//DefineGrammarRule(make_pair("F", "("), vector<Symbol>{"(", "E", ")"});
-	}
-
-
 	void LLOneAnalyzer::DefineStartSymbol(Symbol symbol)
 	{
 		start_symbol_ = symbol;

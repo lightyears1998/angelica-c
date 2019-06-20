@@ -21,7 +21,7 @@ namespace angelica
 	class LLOneAnalyzer
 	{
 	public:
-		LLOneAnalyzer();
+		LLOneAnalyzer() = default;
 
 		// 定义文法的开始符号
 		void DefineStartSymbol(Symbol symbol);
@@ -38,8 +38,7 @@ namespace angelica
 		// 判断一个句子是否符合所给定的文法
 		bool Judge(vector<Symbol> sequence);
 
-	private:
-		
+	private:	
 		Symbol start_symbol_;  // 文法的开始符号
 		map<pair<Symbol, Symbol>, vector<Symbol>> table_;  // 分析表
 	};
