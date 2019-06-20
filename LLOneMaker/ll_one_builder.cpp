@@ -86,7 +86,6 @@ namespace angelica {
 		
 		// 获取一个终结符所可能推导出的第一个非终结符的集合（First集）
 		function<set<Symbol>(Symbol)> getPossibleFirstTerminalSymbol = [&](Symbol left) {
-			cout << "first(" << left << ")" << endl;
 
 			set<Symbol> possible_terminal;
 			
@@ -112,8 +111,7 @@ namespace angelica {
 
 		cout << "构造的First集合" << endl;
 		for (Symbol left : nonterminal_set) {
-			cout << "First(" << left << ") = { ";
-
+			cout << "First(" << left << ")\t= { ";
 			for (Symbol elem : getPossibleFirstTerminalSymbol(left)) {
 				cout << elem << " ";
 			}
@@ -123,8 +121,6 @@ namespace angelica {
 
 		// 获取一个终结符之后所可能推导出的第一个非终结符的集合（Next集）
 		function<set<Symbol>(Symbol)> getPossibleNextTerminalSymbol = [&](Symbol left) {
-			cout << "next(" << left << ")" << endl;
-
 			set<Symbol> possible_terminal;
 
 			// 遍历所有的产生式
@@ -171,7 +167,7 @@ namespace angelica {
 
 		cout << "构造的Next集合：" << endl;
 		for (Symbol sym : nonterminal_set) {
-			cout << "Next(" << sym << ")= { ";
+			cout << "Next (" << sym << ")\t= { ";
 			
 			auto next_set = getPossibleNextTerminalSymbol(sym);
 			for (Symbol sym : next_set) {
