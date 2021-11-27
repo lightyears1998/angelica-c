@@ -7,7 +7,7 @@ namespace angelica
 {
 	CParser::CParser()
 	{
-		// Ìí¼Ó¹Ø¼ü´Ê
+		// æ·»åŠ å…³é”®è¯
 		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_MAIN, "main");
 		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_INT, "int");
 		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_CHAR, "char");
@@ -18,7 +18,7 @@ namespace angelica
 		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_RETURN, "return");
 		associateSymbolTypeWithKeyword(SymbolType::KEYWORD_VOID, "void");
 
-		// Îªµ¥´ÊÖÖ±ğÌí¼ÓÖú¼Ç·û
+		// ä¸ºå•è¯ç§åˆ«æ·»åŠ åŠ©è®°ç¬¦
 		defineMnemonicsForSymbolType(SymbolType::KEYWORD_MAIN, "main");
 		defineMnemonicsForSymbolType(SymbolType::KEYWORD_INT, "int");
 		defineMnemonicsForSymbolType(SymbolType::KEYWORD_CHAR, "char");
@@ -58,15 +58,15 @@ namespace angelica
 	}
 
 
-	// ÖØĞ´»ùÀàº¯Êı
+	// é‡å†™åŸºç±»å‡½æ•°
 	void CParser::Parse()
 	{
 		while (current_index_ < source_text_.length())
 		{
-			string token;  // ÓÃÓÚ±£´æµ¥´Ê·ûºÅµÄ×Ö·û´®
-			token = source_text_[current_index_];  // ½«token³õÊ¼»¯Îª´ı·ÖÎöµÄµÚÒ»¸ö×Ö·û
+			string token;  // ç”¨äºä¿å­˜å•è¯ç¬¦å·çš„å­—ç¬¦ä¸²
+			token = source_text_[current_index_];  // å°†tokenåˆå§‹åŒ–ä¸ºå¾…åˆ†æçš„ç¬¬ä¸€ä¸ªå­—ç¬¦
 
-			if (isspace(token[0])) {  // ÂË³ı¿Õ°××Ö·û
+			if (isspace(token[0])) {  // æ»¤é™¤ç©ºç™½å­—ç¬¦
 				if (token[0] == '\n') {
 					++current_index_;
 					++line_number_, column_number_ = 1;
@@ -78,15 +78,15 @@ namespace angelica
 				continue;
 			}
 
-			if (token[0] == '=') { // Ê¶±ğÎª¡°=¡±»ò¡°==¡±
+			if (token[0] == '=') { // è¯†åˆ«ä¸ºâ€œ=â€æˆ–â€œ==â€
 				if (current_index_ + 1 < source_text_.length() && source_text_.substr(current_index_, 2) == "==")
-				{  // ¡°==¡±
+				{  // â€œ==â€
 					collectSymbol(SymbolType::RELOP_EQ, "");
 					current_index_ += 2;
 					column_number_ += 2;
 				}
 				else
-				{  // ¡°=¡±
+				{  // â€œ=â€
 					collectSymbol(SymbolType::ASSIGNMENT, "");
 					current_index_ += 1;
 					column_number_ += 1;
@@ -94,41 +94,41 @@ namespace angelica
 				continue;
 			}
 
-			if (token[0] == '+') {  // ¡°+¡±
+			if (token[0] == '+') {  // â€œ+â€
 				collectSymbol(SymbolType::PLUS, "");
 				++current_index_;
 				++column_number_;
 				continue;
 			}
 
-			if (token[0] == '-') {  // ¡°-¡±
+			if (token[0] == '-') {  // â€œ-â€
 				collectSymbol(SymbolType::SUBSTRACT, "");
 				++current_index_;
 				++column_number_;
 				continue;
 			}
 
-			if (token[0] == '*') {  // ¡°*¡±
+			if (token[0] == '*') {  // â€œ*â€
 				collectSymbol(SymbolType::MULTIPLE, "");
 				++current_index_;
 				++column_number_;
 				continue;
 			}
 
-			if (token[0] == '/') {  // ¡°//¡±¡¢¡°/*¡±»ò¡°/¡±
+			if (token[0] == '/') {  // â€œ//â€ã€â€œ/*â€æˆ–â€œ/â€
 				if (current_index_ + 1 < source_text_.length())
 				{
 					if (source_text_[current_index_ + 1] == '/')
-					{  // ¡°//¡±
+					{  // â€œ//â€
 						current_index_ += 2;
 						while (current_index_ < source_text_.length() && source_text_[current_index_] != '\n')
-							++current_index_;  // ÂË³ı×¢ÊÍ
+							++current_index_;  // æ»¤é™¤æ³¨é‡Š
 						++current_index_;
 						++line_number_, column_number_ = 1;
 						continue;
 					}
 					else if (source_text_[current_index_ + 1] == '*')
-					{  // ¡°/*¡±
+					{  // â€œ/*â€
 						current_index_ += 2, column_number_ += 2;
 						while (current_index_ + 1 < source_text_.length() && source_text_.substr(current_index_, 2) != "*/")
 						{
@@ -145,79 +145,79 @@ namespace angelica
 					}
 				}
 				else
-				{  // ¡°/¡±
+				{  // â€œ/â€
 					collectSymbol(SymbolType::DIVIDE, "");
 					++current_index_, ++column_number_;
 					continue;
 				}
 			}
 
-			if (token[0] == '(') {  // ¡°(¡±
+			if (token[0] == '(') {  // â€œ(â€
 				collectSymbol(SymbolType::LS_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == ')') {  // ¡°)¡±
+			if (token[0] == ')') {  // â€œ)â€
 				collectSymbol(SymbolType::RS_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == '[') {  // ¡°[¡±
+			if (token[0] == '[') {  // â€œ[â€
 				collectSymbol(SymbolType::LM_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == ']') {  // ¡°]¡±
+			if (token[0] == ']') {  // â€œ]â€
 				collectSymbol(SymbolType::RM_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == '{') {  // ¡°{¡±
+			if (token[0] == '{') {  // â€œ{â€
 				collectSymbol(SymbolType::LL_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == '}') {  // ¡°}¡±
+			if (token[0] == '}') {  // â€œ}â€
 				collectSymbol(SymbolType::RL_PARENTHESIS, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == ',') {  // ¡°,¡±
+			if (token[0] == ',') {  // â€œ,â€
 				collectSymbol(SymbolType::COMMA, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == ':') {  // ¡°:¡±
+			if (token[0] == ':') {  // â€œ:â€
 				collectSymbol(SymbolType::COLON, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (token[0] == ';') {  // ¡°;¡±
+			if (token[0] == ';') {  // â€œ;â€
 				collectSymbol(SymbolType::SEMICOLON, "");
 				++current_index_, ++column_number_;
 				continue;
 			}
 
-			if (isalpha(token[0]) || token[0] == '_') {  // ¹Ø¼ü´Ê»ò±êÊ¶·ûÒÔ×ÖÄ¸»òÏÂ»®Ïß¿ªÍ·
-				unsigned end_of_identifier_index = current_index_ + 1;  // ¹Ø¼ü×Ö»ò±êÖ¾·û×îºóÒ»¸ö×Ö·ûÔÚÔ´´úÂëÖĞµÄÏÂ±ê
+			if (isalpha(token[0]) || token[0] == '_') {  // å…³é”®è¯æˆ–æ ‡è¯†ç¬¦ä»¥å­—æ¯æˆ–ä¸‹åˆ’çº¿å¼€å¤´
+				unsigned end_of_identifier_index = current_index_ + 1;  // å…³é”®å­—æˆ–æ ‡å¿—ç¬¦æœ€åä¸€ä¸ªå­—ç¬¦åœ¨æºä»£ç ä¸­çš„ä¸‹æ ‡
 				while (end_of_identifier_index < source_text_.length() && isLegalIdentifierCharacter(source_text_[end_of_identifier_index]))
 				{
 					token += source_text_[end_of_identifier_index];
 					++end_of_identifier_index;
 				}
-				--end_of_identifier_index;  // »ØÍËÒ»¸ö×Ö·û
-				if (isKeyword(token)) {  // Ê¶±ğÎª¹Ø¼ü´Ê
+				--end_of_identifier_index;  // å›é€€ä¸€ä¸ªå­—ç¬¦
+				if (isKeyword(token)) {  // è¯†åˆ«ä¸ºå…³é”®è¯
 					collectSymbol(getSymbolOfKeyword(token), "");
 				}
-				else {  // Ê¶±ğÎª±êÊ¶·û
+				else {  // è¯†åˆ«ä¸ºæ ‡è¯†ç¬¦
 					collectSymbol(SymbolType::ID, token);
 				}
 				column_number_ += end_of_identifier_index - current_index_ + 1;
@@ -225,23 +225,23 @@ namespace angelica
 				continue;
 			}
 
-			if (isdigit(token[0])) {  // ÕûÊı£¨²»¿¼ÂÇĞ¡Êı£©
+			if (isdigit(token[0])) {  // æ•´æ•°ï¼ˆä¸è€ƒè™‘å°æ•°ï¼‰
 				unsigned end_of_number_index = current_index_ + 1;
 				while (end_of_number_index < source_text_.length() && isdigit(source_text_[end_of_number_index])) {
 					token += source_text_[end_of_number_index];
 					++end_of_number_index;
 				}
-				--end_of_number_index;  // »ØÍËÒ»¸ö×Ö·û
+				--end_of_number_index;  // å›é€€ä¸€ä¸ªå­—ç¬¦
 				collectSymbol(SymbolType::INT, token);
 				column_number_ += end_of_number_index - current_index_ + 1;
 				current_index_ = end_of_number_index + 1;
 				continue;
 			}
 
-			if (token[0] == '"') {  // ×Ö·û´®
+			if (token[0] == '"') {  // å­—ç¬¦ä¸²
 				token = "";
 				unsigned end_of_string_index = current_index_ + 1;
-				while (end_of_string_index < source_text_.length() && source_text_[end_of_string_index] != '"') {  // ²»¿¼ÂÇ×ªÒå×Ö·û
+				while (end_of_string_index < source_text_.length() && source_text_[end_of_string_index] != '"') {  // ä¸è€ƒè™‘è½¬ä¹‰å­—ç¬¦
 					token += source_text_[end_of_string_index];
 					end_of_string_index += 1;
 				}
@@ -251,9 +251,9 @@ namespace angelica
 				continue;
 			}
 
-			if (token[0] == '>')  // ¡°>¡±¡¢¡°>=¡±
+			if (token[0] == '>')  // â€œ>â€ã€â€œ>=â€
 			{
-				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // ¡°>=¡±
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // â€œ>=â€
 				{
 					collectSymbol(SymbolType::RELOP_GE, "");
 					current_index_ += 2, column_number_ += 2;
@@ -266,30 +266,30 @@ namespace angelica
 				}
 			}
 
-			if (token[0] == '<')  // ¡°<¡±¡¢¡°<=¡±
+			if (token[0] == '<')  // â€œ<â€ã€â€œ<=â€
 			{
-				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // ¡°<=¡±
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // â€œ<=â€
 				{
 					collectSymbol(SymbolType::RELOP_LE, "");
 					current_index_ += 2, column_number_ += 2;
 					continue;
 				}
-				else {  // ¡°<¡±
+				else {  // â€œ<â€
 					collectSymbol(SymbolType::RELOP_LT, "");
 					++current_index_, ++column_number_;
 					continue;
 				}
 			}
 
-			if (token[0] == '=')  // ¡°=¡±¡¢¡°==¡±
+			if (token[0] == '=')  // â€œ=â€ã€â€œ==â€
 			{
-				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // ¡°==¡±
+				if (current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // â€œ==â€
 				{
 					collectSymbol(SymbolType::RELOP_EQ, "");
 					current_index_ += 2, column_number_ += 2;
 					continue;
 				}
-				else {  // ¡°=¡±
+				else {  // â€œ=â€
 					collectSymbol(SymbolType::ASSIGNMENT, "");
 					++current_index_, ++column_number_;
 				}
@@ -297,15 +297,15 @@ namespace angelica
 				continue;
 			}
 
-			if (token[0] == '!' && current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // ¡°!=¡±
-			{  // Ê¶±ğÎª¡°!=¡±
+			if (token[0] == '!' && current_index_ + 1 < source_text_.length() && source_text_[current_index_ + 1] == '=')  // â€œ!=â€
+			{  // è¯†åˆ«ä¸ºâ€œ!=â€
 				collectSymbol(SymbolType::RELOP_NEQ, "");
-				++current_index_ += 2, column_number_ += 2;
+				current_index_ += 2, column_number_ += 2;
 				continue;
 			}
 
-			// Èç¹ûÃ»ÓĞ±»ÈÎºÎÒ»¸öifÓï¾ä²¶×½£¬ÔòÓ¦¸Ã±¨¸æ´íÎó
-			throw new exception("ÊäÈëÄÚÈİ²»ºÏ´Ê·¨¡£");
+			// å¦‚æœæ²¡æœ‰è¢«ä»»ä½•ä¸€ä¸ªifè¯­å¥æ•æ‰ï¼Œåˆ™åº”è¯¥æŠ¥å‘Šé”™è¯¯
+			throw new exception("è¾“å…¥å†…å®¹ä¸åˆè¯æ³•ã€‚");
 		}
 	}
 }
